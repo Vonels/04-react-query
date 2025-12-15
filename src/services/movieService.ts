@@ -12,12 +12,13 @@ interface FetchMoviesParams {
 
 interface MoviesResponse {
   results: Movie[];
+  total_pages: number;
 }
 
 export async function fetchMovies({
   query,
   page = 1,
-}: FetchMoviesParams): Promise<Movie[]> {
+}: FetchMoviesParams): Promise<MoviesResponse> {
   const token = import.meta.env.VITE_TMDB_TOKEN as string | undefined;
 
   if (!token) {
@@ -39,5 +40,5 @@ export async function fetchMovies({
     }
   );
 
-  return response.data.results;
+  return response.data;
 }
