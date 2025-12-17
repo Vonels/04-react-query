@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import type { Movie } from "../../types/movie";
 import { fetchMovies } from "../../services/movieService";
@@ -22,14 +22,17 @@ export default function App() {
     queryKey: ["movies", query, page],
     queryFn: () => fetchMovies({ query, page }),
     enabled: isQueryReady,
+    placeholderData: (previousData) => previousData,
   });
 
   const movies = data?.results ?? [];
   const totalPages = data?.total_pages ?? 0;
 
-  if (isQueryReady && !isLoading && !isError && data && movies.length === 0) {
-    toast.error("No movies found for the given query.");
-  }
+  useEffect(() => {
+    if (isQueryReady && !isLoading && !isError && data && movies.length === 0) {
+      toast.error("No movies found for the given query.");
+    }
+  });
 
   const handleSearch = (nextQuery: string) => {
     setQuery(nextQuery);
