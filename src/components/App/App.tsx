@@ -32,7 +32,7 @@ export default function App() {
     if (isQueryReady && !isLoading && !isError && data && movies.length === 0) {
       toast.error("No movies found for the given query.");
     }
-  });
+  }, [isQueryReady, isLoading, isError, data, movies.length]);
 
   const handleSearch = (nextQuery: string) => {
     setQuery(nextQuery);
